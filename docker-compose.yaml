@@ -2,8 +2,11 @@ version: '3'
 services:
   web:
     container_name: ${WEB_HOST}
-    #image: ${WEB_IMAGE_NAME}:${WEB_IMAGE_TAG}
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - WEB_IMAGE_TAG=${WEB_IMAGE_TAG}
     depends_on:
       - db
     ports:
@@ -14,7 +17,9 @@ services:
       - ./config:/etc/odoo
       - ./addons:/mnt/extra-addons
       - ./log:/var/log/odoo
-    entrypoint: "/usr/bin/odoo -c /etc/odoo/odoo.conf --dev all”"
+    command:
+            - /usr/bin/odoo
+            - --dev=reload,qweb,werzeug,xml
   db:
     container_name: ${DB_HOST}
     image: ${DB_IMAGE}:${DB_TAG}
