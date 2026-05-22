@@ -34,6 +34,8 @@ services:
       - "${DB_PORT}:5432"
     volumes:
       - odoo-db-data:/var/lib/postgresql/data/pgdata
+    networks:
+      - networks1
 volumes:
   odoo-db-data:
 networks:
